@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Products — Idle Fortune</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link id="site-css" rel="stylesheet" href="styles.css">
+    <style id="inline-css" media="not all">
+:root {
+    --ink: #0d0d0d;
+    --cream: #faf8f3;
+    --gold: #c9a227;
+    --gold-dim: #8a7019;
+    --sage: #5c6b5e;
+    --charcoal: #2a2a2a;
+    --mist: #e8e4dc;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+    line-height: 1.7;
+}
+
+/* Grain overlay */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+.serif {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+/* Navigation */
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 1.5rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    background: linear-gradient(to bottom, var(--cream) 60%, transparent);
+}
+
+.logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-decoration: none;
+}
+
+.logo span {
+    color: var(--gold);
+}
+
+.nav-links {
+    display: flex;
+    gap: 3rem;
+    list-style: none;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--charcoal);
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    position: relative;
+    transition: color 0.3s;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--gold);
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--gold);
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+/* Hero */
+.hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 8rem 4rem 4rem;
+    gap: 4rem;
+    align-items: center;
+}
+
+.hero-content {
+    max-width: 600px;
+}
+
+.hero-tag {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards;
+    animation-delay: 0.2s;
+}
+
+.hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 2rem;
+    letter-spacing: -0.03em;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards;
+    animation-delay: 0.4s;
+}
+
+.hero h1 em {
+    font-style: italic;
+    color: var(--sage);
+}
+
+.hero p {
+    font-size: 1.1rem;
+    color: var(--charcoal);
+    max-width: 480px;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards;
+    animation-delay: 0.6s;
+}
+
+.cta-group {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards;
+    animation-delay: 0.8s;
+}
+
+.btn-primary {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 1.1rem 2.5rem;
+    border: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--gold);
+    transition: left 0.4s ease;
+    z-index: 0;
+}
+
+.btn-primary span {
+    position: relative;
+    z-index: 1;
+}
+
+.btn-primary:hover::before {
+    left: 0;
+}
+
+.btn-primary:hover {
+    color: var(--ink);
+}
+
+.btn-secondary {
+    color: var(--charcoal);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.3s;
+}
+
+.btn-secondary:hover {
+    color: var(--gold);
+}
+
+.btn-secondary svg {
+    transition: transform 0.3s;
+}
+
+.btn-secondary:hover svg {
+    transform: translateX(4px);
+}
+
+/* Hero Visual */
+.hero-visual {
+    position: relative;
+    height: 70vh;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards;
+    animation-delay: 0.5s;
+}
+
+.visual-card {
+    position: absolute;
+    background: var(--ink);
+    color: var(--cream);
+    padding: 2.5rem;
+    border-radius: 2px;
+}
+
+.visual-card-1 {
+    top: 10%;
+    right: 10%;
+    width: 280px;
+    animation: float 6s ease-in-out infinite;
+}
+
+.visual-card-2 {
+    bottom: 15%;
+    left: 5%;
+    width: 260px;
+    background: var(--cream);
+    color: var(--ink);
+    border: 1px solid var(--mist);
+    animation: float 6s ease-in-out infinite;
+    animation-delay: -2s;
+}
+
+.visual-card-3 {
+    top: 45%;
+    right: -5%;
+    width: 200px;
+    background: var(--gold);
+    color: var(--ink);
+    animation: float 6s ease-in-out infinite;
+    animation-delay: -4s;
+}
+
+.card-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: 0.5rem;
+}
+
+.card-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    font-weight: 600;
+}
+
+.card-change {
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    color: #4ade80;
+}
+
+.visual-card-2 .card-change {
+    color: var(--sage);
+}
+
+/* Stats */
+.stats {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 6rem 4rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 2rem;
+    border-right: 1px solid rgba(255,255,255,0.1);
+}
+
+.stat-item:last-child {
+    border-right: none;
+}
+
+.stat-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem;
+    font-weight: 400;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.7;
+}
+
+/* Streams Section */
+.streams {
+    padding: 10rem 4rem;
+}
+
+.section-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 6rem;
+    align-items: end;
+}
+
+.section-tag {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+}
+
+.section-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+.section-header p {
+    color: var(--charcoal);
+    max-width: 450px;
+}
+
+.streams-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.stream-card {
+    background: var(--cream);
+    border: 1px solid var(--mist);
+    padding: 3rem 2.5rem;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--ink);
+    display: block;
+}
+
+.stream-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s ease;
+}
+
+.stream-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    border-color: transparent;
+}
+
+.stream-card:hover::before {
+    transform: scaleX(1);
+}
+
+.stream-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.stream-icon svg {
+    width: 24px;
+    height: 24px;
+    stroke: var(--gold);
+}
+
+.stream-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.stream-card p {
+    color: var(--charcoal);
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+}
+
+.stream-yield {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--mist);
+    font-size: 0.85rem;
+}
+
+.stream-yield span:first-child {
+    color: var(--charcoal);
+}
+
+.stream-yield span:last-child {
+    color: var(--sage);
+    font-weight: 600;
+}
+
+.card-cta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--gold);
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+.stream-card:hover .card-cta {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Calculator */
+.calculator {
+    background: linear-gradient(135deg, var(--ink) 0%, var(--charcoal) 100%);
+    color: var(--cream);
+    padding: 10rem 4rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.calculator::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(201, 162, 39, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.calculator-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.calculator h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+}
+
+.calculator-form {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 3rem;
+}
+
+.form-group {
+    margin-bottom: 2rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    opacity: 0.7;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding: 1rem 0;
+    font-size: 1.5rem;
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--cream);
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--gold);
+}
+
+.form-group input::placeholder {
+    color: rgba(255,255,255,0.3);
+}
+
+.result-display {
+    background: var(--gold);
+    color: var(--ink);
+    padding: 2rem;
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.result-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+.result-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 600;
+}
+
+.result-sub {
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    opacity: 0.8;
+}
+
+/* Newsletter */
+.newsletter {
+    padding: 10rem 4rem;
+    text-align: center;
+}
+
+.newsletter-inner {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.newsletter h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+}
+
+.newsletter p {
+    color: var(--charcoal);
+    margin-bottom: 3rem;
+}
+
+.newsletter-form {
+    display: flex;
+    gap: 1rem;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.newsletter-form input {
+    flex: 1;
+    background: transparent;
+    border: 1px solid var(--ink);
+    padding: 1.1rem 1.5rem;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.newsletter-form input:focus {
+    border-color: var(--gold);
+}
+
+/* Footer */
+footer {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 6rem 4rem 3rem;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 4rem;
+}
+
+.footer-brand p {
+    opacity: 0.6;
+    font-size: 0.95rem;
+    margin-top: 1.5rem;
+    max-width: 300px;
+}
+
+.footer-col h4 {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    opacity: 0.5;
+}
+
+.footer-col ul {
+    list-style: none;
+}
+
+.footer-col li {
+    margin-bottom: 0.75rem;
+}
+
+.footer-col a {
+    color: var(--cream);
+    text-decoration: none;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+.footer-col a:hover {
+    opacity: 1;
+}
+
+.footer-bottom {
+    padding-top: 3rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    opacity: 0.5;
+}
+
+/* Strategy Page Styles */
+.strategy-hero {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10rem 4rem 6rem;
+    position: relative;
+}
+
+.strategy-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, var(--ink) 0%, var(--charcoal) 100%);
+    z-index: -1;
+}
+
+.strategy-hero .hero-tag {
+    color: var(--gold);
+    opacity: 1;
+    animation: none;
+}
+
+.strategy-hero h1 {
+    color: var(--cream);
+    opacity: 1;
+    animation: fadeUp 0.8s ease forwards;
+}
+
+.strategy-hero p {
+    color: rgba(255,255,255,0.7);
+    max-width: 600px;
+    opacity: 1;
+    animation: fadeUp 0.8s ease forwards;
+    animation-delay: 0.2s;
+}
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    font-size: 0.85rem;
+}
+
+.breadcrumb a {
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.breadcrumb a:hover {
+    color: var(--gold);
+}
+
+.breadcrumb span {
+    color: rgba(255,255,255,0.3);
+}
+
+.strategy-stats {
+    display: flex;
+    gap: 3rem;
+    margin-top: 3rem;
+    padding-top: 3rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.strategy-stat {
+    text-align: left;
+}
+
+.strategy-stat .label {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 0.25rem;
+}
+
+.strategy-stat .value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    color: var(--gold);
+}
+
+/* Content Sections */
+.strategy-content {
+    padding: 6rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 4rem;
+}
+
+.main-content h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    margin-top: 3rem;
+}
+
+.main-content h2:first-child {
+    margin-top: 0;
+}
+
+.main-content h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+    color: var(--charcoal);
+}
+
+.main-content p {
+    color: var(--charcoal);
+    margin-bottom: 1.5rem;
+    font-size: 1.05rem;
+}
+
+.main-content ul,
+.main-content ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+}
+
+.main-content li {
+    margin-bottom: 0.75rem;
+    color: var(--charcoal);
+}
+
+/* Steps */
+.steps {
+    margin: 3rem 0;
+}
+
+.step {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--mist);
+}
+
+.step:last-child {
+    border-bottom: none;
+}
+
+.step-number {
+    width: 60px;
+    height: 60px;
+    background: var(--ink);
+    color: var(--gold);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.step-content h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+}
+
+.step-content p {
+    margin-bottom: 0;
+    font-size: 0.95rem;
+}
+
+/* Sidebar */
+.sidebar {
+    position: sticky;
+    top: 100px;
+    height: fit-content;
+}
+
+.sidebar-card {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+.sidebar-card h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.sidebar-card ul {
+    list-style: none;
+}
+
+.sidebar-card li {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    font-size: 0.95rem;
+}
+
+.sidebar-card li:last-child {
+    border-bottom: none;
+}
+
+.sidebar-card a {
+    color: var(--cream);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.sidebar-card a:hover {
+    color: var(--gold);
+}
+
+.resource-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    background: rgba(255,255,255,0.05);
+    margin-bottom: 0.75rem;
+    text-decoration: none;
+    color: var(--cream);
+    transition: all 0.3s;
+    font-size: 0.9rem;
+}
+
+.resource-link:hover {
+    background: var(--gold);
+    color: var(--ink);
+}
+
+/* Pro Tips */
+.pro-tip {
+    background: linear-gradient(135deg, var(--gold) 0%, #d4af37 100%);
+    color: var(--ink);
+    padding: 2rem;
+    margin: 2rem 0;
+    position: relative;
+}
+
+.pro-tip::before {
+    content: 'PRO TIP';
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.75rem;
+}
+
+.pro-tip p {
+    color: var(--ink);
+    margin-bottom: 0;
+    font-size: 1rem;
+}
+
+/* Comparison Table */
+.comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+}
+
+.comparison-table th,
+.comparison-table td {
+    padding: 1rem 1.5rem;
+    text-align: left;
+    border-bottom: 1px solid var(--mist);
+}
+
+.comparison-table th {
+    background: var(--ink);
+    color: var(--cream);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.comparison-table td {
+    font-size: 0.95rem;
+}
+
+.comparison-table tr:hover td {
+    background: rgba(201, 162, 39, 0.05);
+}
+
+/* CTA Section */
+.cta-section {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 6rem 4rem;
+    text-align: center;
+}
+
+.cta-section h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-bottom: 1.5rem;
+}
+
+.cta-section p {
+    color: rgba(255,255,255,0.7);
+    max-width: 600px;
+    margin: 0 auto 2rem;
+}
+
+/* Animations */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .hero-content {
+        max-width: 100%;
+    }
+
+    .hero p {
+        margin: 0 auto 3rem;
+    }
+
+    .cta-group {
+        justify-content: center;
+    }
+
+    .hero-visual {
+        display: none;
+    }
+
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .stat-item {
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .section-header {
+        grid-template-columns: 1fr;
+    }
+
+    .streams-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .calculator-inner {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        position: static;
+    }
+}
+
+@media (max-width: 768px) {
+    nav {
+        padding: 1rem 2rem;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .hero, .streams, .calculator, .newsletter, .strategy-hero, .strategy-content {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+        padding: 4rem 2rem;
+    }
+
+    .newsletter-form {
+        flex-direction: column;
+    }
+
+    footer {
+        padding: 4rem 2rem 2rem;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .strategy-stats {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .step {
+        grid-template-columns: 1fr;
+    }
+}
+    </style>
+    <script>
+    (() => {
+      const link = document.getElementById('site-css');
+      const inline = document.getElementById('inline-css');
+      if (!inline) return;
+
+      let enabled = false;
+      const enableInline = () => {
+        if (enabled) return;
+        enabled = true;
+        inline.media = 'all';
+      };
+
+      const usable = () => {
+        if (!link) return false;
+        try {
+          return !!(link.sheet && link.sheet.cssRules && link.sheet.cssRules.length);
+        } catch (e) {
+          // Accessing cssRules may throw (cross-origin). Presence of sheet is good enough.
+          return !!link.sheet;
+        }
+      };
+
+      if (!link) {
+        enableInline();
+        return;
+      }
+
+      link.addEventListener('error', enableInline);
+      // If the stylesheet loads as empty/invalid, turn on the inline fallback.
+      setTimeout(() => { if (!usable()) enableInline(); }, 400);
+      setTimeout(() => { if (!usable()) enableInline(); }, 1600);
+    })();
+    </script>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">Idle<span>Fortune</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html#streams">Income Streams</a></li>
+            <li><a href="index.html#calculator">Calculator</a></li>
+            <li><a href="index.html#newsletter">Newsletter</a></li>
+        </ul>
+    </nav>
+
+    <section class="strategy-hero">
+        <div class="breadcrumb">
+            <a href="index.html">Home</a>
+            <span>/</span>
+            <a href="index.html#streams">Strategies</a>
+            <span>/</span>
+            <span style="color: var(--gold);">Digital Products</span>
+        </div>
+        <div class="hero-tag">Passive Income Strategy</div>
+        <h1>Digital Products</h1>
+        <p>Create once, sell forever. Build eBooks, courses, templates, and software that generate revenue around the clock—with profit margins of 70-95% and zero inventory costs.</p>
+        
+        <div class="strategy-stats">
+            <div class="strategy-stat">
+                <div class="label">Profit Margin</div>
+                <div class="value">70-95%</div>
+            </div>
+            <div class="strategy-stat">
+                <div class="label">Startup Cost</div>
+                <div class="value">$0-500</div>
+            </div>
+            <div class="strategy-stat">
+                <div class="label">Time to First Sale</div>
+                <div class="value">2-8 weeks</div>
+            </div>
+            <div class="strategy-stat">
+                <div class="label">Difficulty</div>
+                <div class="value">Intermediate</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="strategy-content">
+        <div class="content-grid">
+            <div class="main-content">
+                <h2>What Are Digital Products?</h2>
+                <p>Digital products are intangible goods that can be created once and sold infinitely without physical inventory. Unlike services where you trade time for money, digital products generate revenue while you sleep, vacation, or work on other projects.</p>
+                <p>The beauty of digital products is their scalability. Whether you sell 10 copies or 10,000 copies, your production cost remains the same. This creates leverage that's impossible with traditional businesses.</p>
+
+                <div class="pro-tip">
+                    <p>Start with what you know. Your first digital product should solve a problem you've personally faced. This ensures you understand your customer deeply and can create something genuinely valuable.</p>
+                </div>
+
+                <h2>Types of Digital Products</h2>
+                
+                <h3>eBooks & Guides</h3>
+                <p>Written content packaged as downloadable PDFs or EPUB files. Best for sharing knowledge, how-to instructions, or curated information. Typically priced $9-49.</p>
+
+                <h3>Online Courses</h3>
+                <p>Video-based learning experiences with structured curriculum. Higher perceived value allows premium pricing ($97-997+). Requires more upfront work but generates higher revenue per sale.</p>
+
+                <h3>Templates & Presets</h3>
+                <p>Ready-made files that save customers time: Notion templates, spreadsheets, design files, Lightroom presets, resume templates. Quick to create, easy to sell at $5-50.</p>
+
+                <h3>Software & Apps</h3>
+                <p>Tools that solve specific problems. Can be simple (browser extensions, plugins) or complex (SaaS products). Highest earning potential but requires technical skills or budget to hire developers.</p>
+
+                <h3>Digital Art & Assets</h3>
+                <p>Graphics, fonts, icons, 3D models, music, sound effects. Sold individually or as bundles. Can also be licensed through marketplaces like Creative Market or Envato.</p>
+
+                <h2>How to Create Your First Digital Product</h2>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Identify a Painful Problem</h4>
+                            <p>Browse Reddit, Quora, and Facebook groups in your area of expertise. Look for questions asked repeatedly. The best products solve specific, urgent problems that people are actively searching for solutions to.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Validate Before Building</h4>
+                            <p>Don't spend months creating something nobody wants. Validate demand by: creating a landing page and running $50 in ads, pre-selling to your audience, or checking if competitors exist (competition = demand).</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Create a Minimum Viable Product</h4>
+                            <p>Build the simplest version that solves the core problem. For eBooks, this might be 30 pages instead of 200. For courses, 5 core lessons instead of 50. You can always expand based on customer feedback.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Set Up Your Sales Infrastructure</h4>
+                            <p>Choose a platform to host and sell your product. Gumroad and Lemonsqueezy are beginner-friendly. Teachable or Kajabi work well for courses. Set up payment processing, delivery, and basic email automation.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h4>Build a Launch Audience</h4>
+                            <p>Start building an email list and social media following before you launch. Share valuable free content related to your product topic. Aim for at least 500 email subscribers or engaged followers before launching.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">6</div>
+                        <div class="step-content">
+                            <h4>Launch and Iterate</h4>
+                            <p>Launch to your audience with a limited-time discount. Gather feedback obsessively. Use testimonials and reviews to improve your sales page. Continuously optimize based on what you learn.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h2>Platform Comparison</h2>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Platform</th>
+                            <th>Best For</th>
+                            <th>Fees</th>
+                            <th>Ease of Use</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Gumroad</strong></td>
+                            <td>All digital products</td>
+                            <td>10% + payment fees</td>
+                            <td>⭐⭐⭐⭐⭐</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lemonsqueezy</strong></td>
+                            <td>Software, subscriptions</td>
+                            <td>5% + payment fees</td>
+                            <td>⭐⭐⭐⭐⭐</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Teachable</strong></td>
+                            <td>Online courses</td>
+                            <td>$0-119/mo + 0-5%</td>
+                            <td>⭐⭐⭐⭐</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Etsy</strong></td>
+                            <td>Templates, printables</td>
+                            <td>6.5% + payment fees</td>
+                            <td>⭐⭐⭐⭐</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Shopify</strong></td>
+                            <td>Scaling businesses</td>
+                            <td>$29+/mo + 2.9%</td>
+                            <td>⭐⭐⭐</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Pricing Strategies</h2>
+                <p>Most creators underprice their products. Use these guidelines:</p>
+                
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Product Type</th>
+                            <th>Typical Price Range</th>
+                            <th>Sweet Spot</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Templates / Presets</td>
+                            <td>$5 - $79</td>
+                            <td>$19 - $29</td>
+                        </tr>
+                        <tr>
+                            <td>eBooks / Guides</td>
+                            <td>$9 - $99</td>
+                            <td>$27 - $47</td>
+                        </tr>
+                        <tr>
+                            <td>Mini Courses</td>
+                            <td>$47 - $197</td>
+                            <td>$97</td>
+                        </tr>
+                        <tr>
+                            <td>Flagship Courses</td>
+                            <td>$197 - $1997</td>
+                            <td>$497</td>
+                        </tr>
+                        <tr>
+                            <td>Software / Tools</td>
+                            <td>$29 - $199/yr</td>
+                            <td>$79/yr</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="pro-tip">
+                    <p>Price based on value, not time. If your $27 eBook saves someone 10 hours of work (worth $500+), it's a bargain. Don't think "this only took me a weekend"—think "what is the transformation worth?"</p>
+                </div>
+
+                <h2>Marketing Your Products</h2>
+                <h3>Content Marketing (Free Traffic)</h3>
+                <p>Create valuable content that attracts your ideal customers: blog posts, YouTube videos, Twitter threads, or TikToks. Each piece should naturally lead viewers toward your paid product.</p>
+
+                <h3>Email Marketing</h3>
+                <p>Build an email list from day one. Offer a free resource (lead magnet) in exchange for emails. Nurture subscribers with valuable content, then promote your products. Email consistently converts 3-5x better than social media.</p>
+
+                <h3>Paid Advertising</h3>
+                <p>Once you have a proven product, scale with Facebook/Instagram ads or Google ads. Start with $20-50/day and optimize based on results. Only scale what's already working organically.</p>
+
+                <h3>Affiliate Partnerships</h3>
+                <p>Partner with creators who have audiences that would benefit from your product. Offer 30-50% commissions to incentivize promotion. This is essentially free marketing—you only pay when you make a sale.</p>
+            </div>
+
+            <div class="sidebar">
+                <div class="sidebar-card">
+                    <h4>Quick Start Checklist</h4>
+                    <ul>
+                        <li>☐ Identify your expertise/niche</li>
+                        <li>☐ Research problems to solve</li>
+                        <li>☐ Validate demand</li>
+                        <li>☐ Create MVP version</li>
+                        <li>☐ Set up selling platform</li>
+                        <li>☐ Build email list</li>
+                        <li>☐ Launch with discount</li>
+                        <li>☐ Collect testimonials</li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-card">
+                    <h4>Selling Platforms</h4>
+                    <a href="https://gumroad.com" target="_blank" class="resource-link">
+                        Gumroad
+                        <span>→</span>
+                    </a>
+                    <a href="https://lemonsqueezy.com" target="_blank" class="resource-link">
+                        Lemonsqueezy
+                        <span>→</span>
+                    </a>
+                    <a href="https://teachable.com" target="_blank" class="resource-link">
+                        Teachable
+                        <span>→</span>
+                    </a>
+                    <a href="https://etsy.com" target="_blank" class="resource-link">
+                        Etsy (Templates)
+                        <span>→</span>
+                    </a>
+                </div>
+
+                <div class="sidebar-card">
+                    <h4>Creation Tools</h4>
+                    <a href="https://canva.com" target="_blank" class="resource-link">
+                        Canva (Design)
+                        <span>→</span>
+                    </a>
+                    <a href="https://notion.so" target="_blank" class="resource-link">
+                        Notion (Templates)
+                        <span>→</span>
+                    </a>
+                    <a href="https://loom.com" target="_blank" class="resource-link">
+                        Loom (Video)
+                        <span>→</span>
+                    </a>
+                </div>
+
+                <div class="sidebar-card" style="background: var(--gold); color: var(--ink);">
+                    <h4>Product Ideas by Skill</h4>
+                    <ul style="font-size: 0.9rem;">
+                        <li><strong>Writing:</strong> eBooks, guides</li>
+                        <li><strong>Design:</strong> Templates, presets</li>
+                        <li><strong>Teaching:</strong> Courses, workshops</li>
+                        <li><strong>Coding:</strong> Apps, plugins, tools</li>
+                        <li><strong>Organizing:</strong> Notion, planners</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2>Ready to Create Your First Digital Product?</h2>
+        <p>Start by identifying one problem you can solve. Your knowledge is valuable—package it and share it with the world.</p>
+        <a href="index.html#streams" class="btn-primary"><span>Explore More Strategies</span></a>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="index.html" class="logo">Idle<span>Fortune</span></a>
+                <p>Empowering individuals to build sustainable wealth through smart, passive income strategies.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Strategies</h4>
+                <ul>
+                    <li><a href="dividends.html">Dividend Investing</a></li>
+                    <li><a href="digital-products.html">Digital Products</a></li>
+                    <li><a href="real-estate.html">Real Estate</a></li>
+                    <li><a href="affiliate-marketing.html">Affiliate Marketing</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>More Strategies</h4>
+                <ul>
+                    <li><a href="index-funds.html">Index Funds</a></li>
+                    <li><a href="content-licensing.html">Content Licensing</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Privacy</a></li>
+                    <li><a href="#">Terms</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 IdleFortune. All rights reserved.</span>
+            <span>Built for those who think long-term.</span>
+        </div>
+    </footer>
+
+    <script src="calculator.js"></script>
+</body>
+</html>
