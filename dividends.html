@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dividend Investing — Idle Fortune</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link id="site-css" rel="stylesheet" href="styles.css">
+    <style id="inline-css" media="not all">
+:root {
+    --ink: #0d0d0d;
+    --cream: #faf8f3;
+    --gold: #c9a227;
+    --gold-dim: #8a7019;
+    --sage: #5c6b5e;
+    --charcoal: #2a2a2a;
+    --mist: #e8e4dc;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+    line-height: 1.7;
+}
+
+/* Grain overlay */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+.serif {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+/* Navigation */
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 1.5rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    background: linear-gradient(to bottom, var(--cream) 60%, transparent);
+}
+
+.logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-decoration: none;
+}
+
+.logo span {
+    color: var(--gold);
+}
+
+.nav-links {
+    display: flex;
+    gap: 3rem;
+    list-style: none;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--charcoal);
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    position: relative;
+    transition: color 0.3s;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--gold);
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--gold);
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+/* Hero */
+.hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 8rem 4rem 4rem;
+    gap: 4rem;
+    align-items: center;
+}
+
+.hero-content {
+    max-width: 600px;
+}
+
+.hero-tag {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards;
+    animation-delay: 0.2s;
+}
+
+.hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 2rem;
+    letter-spacing: -0.03em;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards;
+    animation-delay: 0.4s;
+}
+
+.hero h1 em {
+    font-style: italic;
+    color: var(--sage);
+}
+
+.hero p {
+    font-size: 1.1rem;
+    color: var(--charcoal);
+    max-width: 480px;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards;
+    animation-delay: 0.6s;
+}
+
+.cta-group {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards;
+    animation-delay: 0.8s;
+}
+
+.btn-primary {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 1.1rem 2.5rem;
+    border: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--gold);
+    transition: left 0.4s ease;
+    z-index: 0;
+}
+
+.btn-primary span {
+    position: relative;
+    z-index: 1;
+}
+
+.btn-primary:hover::before {
+    left: 0;
+}
+
+.btn-primary:hover {
+    color: var(--ink);
+}
+
+.btn-secondary {
+    color: var(--charcoal);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.3s;
+}
+
+.btn-secondary:hover {
+    color: var(--gold);
+}
+
+.btn-secondary svg {
+    transition: transform 0.3s;
+}
+
+.btn-secondary:hover svg {
+    transform: translateX(4px);
+}
+
+/* Hero Visual */
+.hero-visual {
+    position: relative;
+    height: 70vh;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards;
+    animation-delay: 0.5s;
+}
+
+.visual-card {
+    position: absolute;
+    background: var(--ink);
+    color: var(--cream);
+    padding: 2.5rem;
+    border-radius: 2px;
+}
+
+.visual-card-1 {
+    top: 10%;
+    right: 10%;
+    width: 280px;
+    animation: float 6s ease-in-out infinite;
+}
+
+.visual-card-2 {
+    bottom: 15%;
+    left: 5%;
+    width: 260px;
+    background: var(--cream);
+    color: var(--ink);
+    border: 1px solid var(--mist);
+    animation: float 6s ease-in-out infinite;
+    animation-delay: -2s;
+}
+
+.visual-card-3 {
+    top: 45%;
+    right: -5%;
+    width: 200px;
+    background: var(--gold);
+    color: var(--ink);
+    animation: float 6s ease-in-out infinite;
+    animation-delay: -4s;
+}
+
+.card-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: 0.5rem;
+}
+
+.card-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    font-weight: 600;
+}
+
+.card-change {
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    color: #4ade80;
+}
+
+.visual-card-2 .card-change {
+    color: var(--sage);
+}
+
+/* Stats */
+.stats {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 6rem 4rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 2rem;
+    border-right: 1px solid rgba(255,255,255,0.1);
+}
+
+.stat-item:last-child {
+    border-right: none;
+}
+
+.stat-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem;
+    font-weight: 400;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.7;
+}
+
+/* Streams Section */
+.streams {
+    padding: 10rem 4rem;
+}
+
+.section-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 6rem;
+    align-items: end;
+}
+
+.section-tag {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+}
+
+.section-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+.section-header p {
+    color: var(--charcoal);
+    max-width: 450px;
+}
+
+.streams-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.stream-card {
+    background: var(--cream);
+    border: 1px solid var(--mist);
+    padding: 3rem 2.5rem;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--ink);
+    display: block;
+}
+
+.stream-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s ease;
+}
+
+.stream-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    border-color: transparent;
+}
+
+.stream-card:hover::before {
+    transform: scaleX(1);
+}
+
+.stream-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.stream-icon svg {
+    width: 24px;
+    height: 24px;
+    stroke: var(--gold);
+}
+
+.stream-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.stream-card p {
+    color: var(--charcoal);
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+}
+
+.stream-yield {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--mist);
+    font-size: 0.85rem;
+}
+
+.stream-yield span:first-child {
+    color: var(--charcoal);
+}
+
+.stream-yield span:last-child {
+    color: var(--sage);
+    font-weight: 600;
+}
+
+.card-cta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--gold);
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+.stream-card:hover .card-cta {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Calculator */
+.calculator {
+    background: linear-gradient(135deg, var(--ink) 0%, var(--charcoal) 100%);
+    color: var(--cream);
+    padding: 10rem 4rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.calculator::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(201, 162, 39, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.calculator-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.calculator h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+}
+
+.calculator-form {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 3rem;
+}
+
+.form-group {
+    margin-bottom: 2rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    opacity: 0.7;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding: 1rem 0;
+    font-size: 1.5rem;
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--cream);
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--gold);
+}
+
+.form-group input::placeholder {
+    color: rgba(255,255,255,0.3);
+}
+
+.result-display {
+    background: var(--gold);
+    color: var(--ink);
+    padding: 2rem;
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.result-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+.result-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 600;
+}
+
+.result-sub {
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    opacity: 0.8;
+}
+
+/* Newsletter */
+.newsletter {
+    padding: 10rem 4rem;
+    text-align: center;
+}
+
+.newsletter-inner {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.newsletter h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+}
+
+.newsletter p {
+    color: var(--charcoal);
+    margin-bottom: 3rem;
+}
+
+.newsletter-form {
+    display: flex;
+    gap: 1rem;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.newsletter-form input {
+    flex: 1;
+    background: transparent;
+    border: 1px solid var(--ink);
+    padding: 1.1rem 1.5rem;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.newsletter-form input:focus {
+    border-color: var(--gold);
+}
+
+/* Footer */
+footer {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 6rem 4rem 3rem;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 4rem;
+}
+
+.footer-brand p {
+    opacity: 0.6;
+    font-size: 0.95rem;
+    margin-top: 1.5rem;
+    max-width: 300px;
+}
+
+.footer-col h4 {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    opacity: 0.5;
+}
+
+.footer-col ul {
+    list-style: none;
+}
+
+.footer-col li {
+    margin-bottom: 0.75rem;
+}
+
+.footer-col a {
+    color: var(--cream);
+    text-decoration: none;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+.footer-col a:hover {
+    opacity: 1;
+}
+
+.footer-bottom {
+    padding-top: 3rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    opacity: 0.5;
+}
+
+/* Strategy Page Styles */
+.strategy-hero {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10rem 4rem 6rem;
+    position: relative;
+}
+
+.strategy-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, var(--ink) 0%, var(--charcoal) 100%);
+    z-index: -1;
+}
+
+.strategy-hero .hero-tag {
+    color: var(--gold);
+    opacity: 1;
+    animation: none;
+}
+
+.strategy-hero h1 {
+    color: var(--cream);
+    opacity: 1;
+    animation: fadeUp 0.8s ease forwards;
+}
+
+.strategy-hero p {
+    color: rgba(255,255,255,0.7);
+    max-width: 600px;
+    opacity: 1;
+    animation: fadeUp 0.8s ease forwards;
+    animation-delay: 0.2s;
+}
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    font-size: 0.85rem;
+}
+
+.breadcrumb a {
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.breadcrumb a:hover {
+    color: var(--gold);
+}
+
+.breadcrumb span {
+    color: rgba(255,255,255,0.3);
+}
+
+.strategy-stats {
+    display: flex;
+    gap: 3rem;
+    margin-top: 3rem;
+    padding-top: 3rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.strategy-stat {
+    text-align: left;
+}
+
+.strategy-stat .label {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 0.25rem;
+}
+
+.strategy-stat .value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    color: var(--gold);
+}
+
+/* Content Sections */
+.strategy-content {
+    padding: 6rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 4rem;
+}
+
+.main-content h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    margin-top: 3rem;
+}
+
+.main-content h2:first-child {
+    margin-top: 0;
+}
+
+.main-content h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+    color: var(--charcoal);
+}
+
+.main-content p {
+    color: var(--charcoal);
+    margin-bottom: 1.5rem;
+    font-size: 1.05rem;
+}
+
+.main-content ul,
+.main-content ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+}
+
+.main-content li {
+    margin-bottom: 0.75rem;
+    color: var(--charcoal);
+}
+
+/* Steps */
+.steps {
+    margin: 3rem 0;
+}
+
+.step {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--mist);
+}
+
+.step:last-child {
+    border-bottom: none;
+}
+
+.step-number {
+    width: 60px;
+    height: 60px;
+    background: var(--ink);
+    color: var(--gold);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.step-content h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+}
+
+.step-content p {
+    margin-bottom: 0;
+    font-size: 0.95rem;
+}
+
+/* Sidebar */
+.sidebar {
+    position: sticky;
+    top: 100px;
+    height: fit-content;
+}
+
+.sidebar-card {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+.sidebar-card h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.sidebar-card ul {
+    list-style: none;
+}
+
+.sidebar-card li {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    font-size: 0.95rem;
+}
+
+.sidebar-card li:last-child {
+    border-bottom: none;
+}
+
+.sidebar-card a {
+    color: var(--cream);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.sidebar-card a:hover {
+    color: var(--gold);
+}
+
+.resource-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    background: rgba(255,255,255,0.05);
+    margin-bottom: 0.75rem;
+    text-decoration: none;
+    color: var(--cream);
+    transition: all 0.3s;
+    font-size: 0.9rem;
+}
+
+.resource-link:hover {
+    background: var(--gold);
+    color: var(--ink);
+}
+
+/* Pro Tips */
+.pro-tip {
+    background: linear-gradient(135deg, var(--gold) 0%, #d4af37 100%);
+    color: var(--ink);
+    padding: 2rem;
+    margin: 2rem 0;
+    position: relative;
+}
+
+.pro-tip::before {
+    content: 'PRO TIP';
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.75rem;
+}
+
+.pro-tip p {
+    color: var(--ink);
+    margin-bottom: 0;
+    font-size: 1rem;
+}
+
+/* Comparison Table */
+.comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+}
+
+.comparison-table th,
+.comparison-table td {
+    padding: 1rem 1.5rem;
+    text-align: left;
+    border-bottom: 1px solid var(--mist);
+}
+
+.comparison-table th {
+    background: var(--ink);
+    color: var(--cream);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.comparison-table td {
+    font-size: 0.95rem;
+}
+
+.comparison-table tr:hover td {
+    background: rgba(201, 162, 39, 0.05);
+}
+
+/* CTA Section */
+.cta-section {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 6rem 4rem;
+    text-align: center;
+}
+
+.cta-section h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-bottom: 1.5rem;
+}
+
+.cta-section p {
+    color: rgba(255,255,255,0.7);
+    max-width: 600px;
+    margin: 0 auto 2rem;
+}
+
+/* Animations */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .hero-content {
+        max-width: 100%;
+    }
+
+    .hero p {
+        margin: 0 auto 3rem;
+    }
+
+    .cta-group {
+        justify-content: center;
+    }
+
+    .hero-visual {
+        display: none;
+    }
+
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .stat-item {
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .section-header {
+        grid-template-columns: 1fr;
+    }
+
+    .streams-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .calculator-inner {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        position: static;
+    }
+}
+
+@media (max-width: 768px) {
+    nav {
+        padding: 1rem 2rem;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .hero, .streams, .calculator, .newsletter, .strategy-hero, .strategy-content {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+        padding: 4rem 2rem;
+    }
+
+    .newsletter-form {
+        flex-direction: column;
+    }
+
+    footer {
+        padding: 4rem 2rem 2rem;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .strategy-stats {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .step {
+        grid-template-columns: 1fr;
+    }
+}
+    </style>
+    <script>
+    (() => {
+      const link = document.getElementById('site-css');
+      const inline = document.getElementById('inline-css');
+      if (!inline) return;
+
+      let enabled = false;
+      const enableInline = () => {
+        if (enabled) return;
+        enabled = true;
+        inline.media = 'all';
+      };
+
+      const usable = () => {
+        if (!link) return false;
+        try {
+          return !!(link.sheet && link.sheet.cssRules && link.sheet.cssRules.length);
+        } catch (e) {
+          // Accessing cssRules may throw (cross-origin). Presence of sheet is good enough.
+          return !!link.sheet;
+        }
+      };
+
+      if (!link) {
+        enableInline();
+        return;
+      }
+
+      link.addEventListener('error', enableInline);
+      // If the stylesheet loads as empty/invalid, turn on the inline fallback.
+      setTimeout(() => { if (!usable()) enableInline(); }, 400);
+      setTimeout(() => { if (!usable()) enableInline(); }, 1600);
+    })();
+    </script>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">Idle<span>Fortune</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html#streams">Income Streams</a></li>
+            <li><a href="index.html#calculator">Calculator</a></li>
+            <li><a href="index.html#newsletter">Newsletter</a></li>
+        </ul>
+    </nav>
+
+    <section class="strategy-hero">
+        <div class="breadcrumb">
+            <a href="index.html">Home</a>
+            <span>/</span>
+            <a href="index.html#streams">Strategies</a>
+            <span>/</span>
+            <span style="color: var(--gold);">Dividend Investing</span>
+        </div>
+        <div class="hero-tag">Passive Income Strategy</div>
+        <h1>Dividend Investing</h1>
+        <p>Build a portfolio of high-quality dividend stocks and REITs that pay you quarterly—creating a reliable income stream that grows over time regardless of market conditions.</p>
+        
+        <div class="strategy-stats">
+            <div class="strategy-stat">
+                <div class="label">Typical Yield</div>
+                <div class="value">4-8%</div>
+            </div>
+            <div class="strategy-stat">
+                <div class="label">Minimum to Start</div>
+                <div class="value">$100</div>
+            </div>
+            <div class="strategy-stat">
+                <div class="label">Time Investment</div>
+                <div class="value">2-4 hrs/mo</div>
+            </div>
+            <div class="strategy-stat">
+                <div class="label">Difficulty</div>
+                <div class="value">Beginner</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="strategy-content">
+        <div class="content-grid">
+            <div class="main-content">
+                <h2>What is Dividend Investing?</h2>
+                <p>Dividend investing is a strategy focused on buying shares of companies that regularly distribute a portion of their profits to shareholders. These payments, called dividends, provide a steady income stream regardless of whether the stock price goes up or down.</p>
+                <p>Unlike growth investing where you rely solely on stock price appreciation, dividend investing pays you to own shares. Many dividend-paying companies have increased their payouts for decades, meaning your income grows automatically over time.</p>
+
+                <div class="pro-tip">
+                    <p>Focus on "Dividend Aristocrats"—companies that have increased their dividend every year for at least 25 consecutive years. These companies have proven they can maintain payouts through recessions and market crashes.</p>
+                </div>
+
+                <h2>How to Get Started</h2>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Open a Brokerage Account</h4>
+                            <p>Choose a commission-free broker like Fidelity, Charles Schwab, or Vanguard. Look for one that offers fractional shares so you can invest any amount, and DRIP (Dividend Reinvestment Plans) to automatically reinvest your dividends.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Start with Dividend ETFs</h4>
+                            <p>Rather than picking individual stocks, begin with diversified dividend ETFs like VYM (Vanguard High Dividend Yield), SCHD (Schwab US Dividend Equity), or DGRO (iShares Core Dividend Growth). These give you instant diversification across 100+ dividend-paying companies.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Set Up Automatic Investments</h4>
+                            <p>Configure automatic monthly transfers from your bank account to your brokerage, and set up automatic purchases of your chosen ETFs. This "set and forget" approach removes emotion from investing and ensures consistent growth.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Enable DRIP</h4>
+                            <p>Turn on dividend reinvestment so every dividend payment automatically buys more shares. This creates a compounding effect where your dividends earn dividends, dramatically accelerating your portfolio growth.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h4>Gradually Add Individual Stocks</h4>
+                            <p>As you learn more, consider adding individual dividend stocks. Focus on companies with: 10+ years of dividend growth, payout ratios under 60%, strong balance sheets, and competitive advantages in their industry.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h2>Recommended Dividend ETFs</h2>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>ETF</th>
+                            <th>Yield</th>
+                            <th>Expense Ratio</th>
+                            <th>Focus</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>SCHD</strong></td>
+                            <td>3.5%</td>
+                            <td>0.06%</td>
+                            <td>Quality + Growth</td>
+                        </tr>
+                        <tr>
+                            <td><strong>VYM</strong></td>
+                            <td>3.0%</td>
+                            <td>0.06%</td>
+                            <td>High Yield</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DGRO</strong></td>
+                            <td>2.4%</td>
+                            <td>0.08%</td>
+                            <td>Dividend Growth</td>
+                        </tr>
+                        <tr>
+                            <td><strong>VIG</strong></td>
+                            <td>1.9%</td>
+                            <td>0.06%</td>
+                            <td>Dividend Achievers</td>
+                        </tr>
+                        <tr>
+                            <td><strong>JEPI</strong></td>
+                            <td>7.5%</td>
+                            <td>0.35%</td>
+                            <td>High Income</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Income Projection</h2>
+                <p>Here's what your dividend income could look like based on different investment levels (assuming a 4% average yield with 7% annual dividend growth):</p>
+                
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Portfolio Value</th>
+                            <th>Year 1 Income</th>
+                            <th>Year 5 Income</th>
+                            <th>Year 10 Income</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>$10,000</td>
+                            <td>$400/yr</td>
+                            <td>$561/yr</td>
+                            <td>$787/yr</td>
+                        </tr>
+                        <tr>
+                            <td>$50,000</td>
+                            <td>$2,000/yr</td>
+                            <td>$2,805/yr</td>
+                            <td>$3,934/yr</td>
+                        </tr>
+                        <tr>
+                            <td>$100,000</td>
+                            <td>$4,000/yr</td>
+                            <td>$5,610/yr</td>
+                            <td>$7,868/yr</td>
+                        </tr>
+                        <tr>
+                            <td>$500,000</td>
+                            <td>$20,000/yr</td>
+                            <td>$28,051/yr</td>
+                            <td>$39,343/yr</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="pro-tip">
+                    <p>The magic of dividend investing isn't just the income—it's the growth. A 4% yield that grows 7% annually becomes an 8% yield on your original investment in just 10 years, without you doing anything.</p>
+                </div>
+
+                <h2>Common Mistakes to Avoid</h2>
+                <h3>Chasing High Yields</h3>
+                <p>Extremely high yields (10%+) are often unsustainable and signal a company in trouble. A 3% yield that grows is far better than an 8% yield that gets cut.</p>
+
+                <h3>Ignoring Total Return</h3>
+                <p>Don't focus solely on dividend income. A company with a 2% yield but 10% annual growth will outperform one with a 5% yield and no growth.</p>
+
+                <h3>Over-Concentration</h3>
+                <p>Don't put all your money in one or two high-yielding stocks. Diversify across at least 20-30 positions or use ETFs to spread your risk.</p>
+
+                <h3>Forgetting About Taxes</h3>
+                <p>Qualified dividends are taxed at lower capital gains rates, but they're still taxed annually. Consider holding dividend stocks in tax-advantaged accounts like IRAs when possible.</p>
+            </div>
+
+            <div class="sidebar">
+                <div class="sidebar-card">
+                    <h4>Quick Start Checklist</h4>
+                    <ul>
+                        <li>☐ Open brokerage account</li>
+                        <li>☐ Fund with initial deposit</li>
+                        <li>☐ Buy first dividend ETF (SCHD or VYM)</li>
+                        <li>☐ Enable DRIP</li>
+                        <li>☐ Set up automatic monthly investment</li>
+                        <li>☐ Track dividends received</li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-card">
+                    <h4>Recommended Brokers</h4>
+                    <a href="https://www.fidelity.com" target="_blank" class="resource-link">
+                        Fidelity
+                        <span>→</span>
+                    </a>
+                    <a href="https://www.schwab.com" target="_blank" class="resource-link">
+                        Charles Schwab
+                        <span>→</span>
+                    </a>
+                    <a href="https://www.vanguard.com" target="_blank" class="resource-link">
+                        Vanguard
+                        <span>→</span>
+                    </a>
+                </div>
+
+                <div class="sidebar-card">
+                    <h4>Research Tools</h4>
+                    <a href="https://www.dividend.com" target="_blank" class="resource-link">
+                        Dividend.com
+                        <span>→</span>
+                    </a>
+                    <a href="https://www.seekingalpha.com" target="_blank" class="resource-link">
+                        Seeking Alpha
+                        <span>→</span>
+                    </a>
+                    <a href="https://www.simplysafedividends.com" target="_blank" class="resource-link">
+                        Simply Safe Dividends
+                        <span>→</span>
+                    </a>
+                </div>
+
+                <div class="sidebar-card" style="background: var(--gold); color: var(--ink);">
+                    <h4>Key Metrics to Track</h4>
+                    <ul style="font-size: 0.9rem;">
+                        <li><strong>Dividend Yield:</strong> Annual dividend / stock price</li>
+                        <li><strong>Payout Ratio:</strong> Should be under 60%</li>
+                        <li><strong>Dividend Growth Rate:</strong> Annual increase %</li>
+                        <li><strong>Years of Growth:</strong> Consecutive increases</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2>Ready to Start Earning Dividends?</h2>
+        <p>Open a brokerage account today and make your first investment. Even $100 can start generating passive income.</p>
+        <a href="index.html#streams" class="btn-primary"><span>Explore More Strategies</span></a>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="index.html" class="logo">Idle<span>Fortune</span></a>
+                <p>Empowering individuals to build sustainable wealth through smart, passive income strategies.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Strategies</h4>
+                <ul>
+                    <li><a href="dividends.html">Dividend Investing</a></li>
+                    <li><a href="digital-products.html">Digital Products</a></li>
+                    <li><a href="real-estate.html">Real Estate</a></li>
+                    <li><a href="affiliate-marketing.html">Affiliate Marketing</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>More Strategies</h4>
+                <ul>
+                    <li><a href="index-funds.html">Index Funds</a></li>
+                    <li><a href="content-licensing.html">Content Licensing</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Privacy</a></li>
+                    <li><a href="#">Terms</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026 IdleFortune. All rights reserved.</span>
+            <span>Built for those who think long-term.</span>
+        </div>
+    </footer>
+
+    <script src="calculator.js"></script>
+</body>
+</html>
