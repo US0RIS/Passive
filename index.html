@@ -7,785 +7,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --ink: #0d0d0d;
-            --cream: #faf8f3;
-            --gold: #c9a227;
-            --gold-dim: #8a7019;
-            --sage: #5c6b5e;
-            --charcoal: #2a2a2a;
-            --mist: #e8e4dc;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--cream);
-            color: var(--ink);
-            overflow-x: hidden;
-            line-height: 1.7;
-        }
-
-        /* Grain overlay */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-            opacity: 0.03;
-            pointer-events: none;
-            z-index: 9999;
-        }
-
-        .serif {
-            font-family: 'Cormorant Garamond', Georgia, serif;
-        }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            padding: 1.5rem 4rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            background: linear-gradient(to bottom, var(--cream) 60%, transparent);
-        }
-
-        .logo {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.8rem;
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            color: var(--ink);
-        }
-
-        .logo span {
-            color: var(--gold);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 3rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--charcoal);
-            font-size: 0.85rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            position: relative;
-            transition: color 0.3s;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: var(--gold);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--gold);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        /* Hero */
-        .hero {
-            min-height: 100vh;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            padding: 8rem 4rem 4rem;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .hero-content {
-            max-width: 600px;
-        }
-
-        .hero-tag {
-            font-size: 0.75rem;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 2rem;
-            opacity: 0;
-            animation: fadeUp 0.8s ease forwards;
-            animation-delay: 0.2s;
-        }
-
-        .hero h1 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(3rem, 6vw, 5.5rem);
-            font-weight: 400;
-            line-height: 1.1;
-            margin-bottom: 2rem;
-            letter-spacing: -0.03em;
-            opacity: 0;
-            animation: fadeUp 0.8s ease forwards;
-            animation-delay: 0.4s;
-        }
-
-        .hero h1 em {
-            font-style: italic;
-            color: var(--sage);
-        }
-
-        .hero p {
-            font-size: 1.1rem;
-            color: var(--charcoal);
-            max-width: 480px;
-            margin-bottom: 3rem;
-            opacity: 0;
-            animation: fadeUp 0.8s ease forwards;
-            animation-delay: 0.6s;
-        }
-
-        .cta-group {
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-            opacity: 0;
-            animation: fadeUp 0.8s ease forwards;
-            animation-delay: 0.8s;
-        }
-
-        .btn-primary {
-            background: var(--ink);
-            color: var(--cream);
-            padding: 1.1rem 2.5rem;
-            border: none;
-            font-size: 0.85rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: var(--gold);
-            transition: left 0.4s ease;
-            z-index: 0;
-        }
-
-        .btn-primary span {
-            position: relative;
-            z-index: 1;
-        }
-
-        .btn-primary:hover::before {
-            left: 0;
-        }
-
-        .btn-primary:hover {
-            color: var(--ink);
-        }
-
-        .btn-secondary {
-            color: var(--charcoal);
-            text-decoration: none;
-            font-size: 0.85rem;
-            letter-spacing: 0.05em;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: color 0.3s;
-        }
-
-        .btn-secondary:hover {
-            color: var(--gold);
-        }
-
-        .btn-secondary svg {
-            transition: transform 0.3s;
-        }
-
-        .btn-secondary:hover svg {
-            transform: translateX(4px);
-        }
-
-        /* Hero Visual */
-        .hero-visual {
-            position: relative;
-            height: 70vh;
-            opacity: 0;
-            animation: fadeIn 1s ease forwards;
-            animation-delay: 0.5s;
-        }
-
-        .visual-card {
-            position: absolute;
-            background: var(--ink);
-            color: var(--cream);
-            padding: 2.5rem;
-            border-radius: 2px;
-        }
-
-        .visual-card-1 {
-            top: 10%;
-            right: 10%;
-            width: 280px;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .visual-card-2 {
-            bottom: 15%;
-            left: 5%;
-            width: 260px;
-            background: var(--cream);
-            color: var(--ink);
-            border: 1px solid var(--mist);
-            animation: float 6s ease-in-out infinite;
-            animation-delay: -2s;
-        }
-
-        .visual-card-3 {
-            top: 45%;
-            right: -5%;
-            width: 200px;
-            background: var(--gold);
-            color: var(--ink);
-            animation: float 6s ease-in-out infinite;
-            animation-delay: -4s;
-        }
-
-        .card-label {
-            font-size: 0.65rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            opacity: 0.6;
-            margin-bottom: 0.5rem;
-        }
-
-        .card-value {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 2.5rem;
-            font-weight: 600;
-        }
-
-        .card-change {
-            font-size: 0.85rem;
-            margin-top: 0.5rem;
-            color: #4ade80;
-        }
-
-        .visual-card-2 .card-change {
-            color: var(--sage);
-        }
-
-        /* Stats */
-        .stats {
-            background: var(--ink);
-            color: var(--cream);
-            padding: 6rem 4rem;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-        }
-
-        .stat-item {
-            text-align: center;
-            padding: 2rem;
-            border-right: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .stat-item:last-child {
-            border-right: none;
-        }
-
-        .stat-number {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 4rem;
-            font-weight: 400;
-            color: var(--gold);
-            line-height: 1;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            font-size: 0.8rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            opacity: 0.7;
-        }
-
-        /* Streams Section */
-        .streams {
-            padding: 10rem 4rem;
-        }
-
-        .section-header {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            margin-bottom: 6rem;
-            align-items: end;
-        }
-
-        .section-tag {
-            font-size: 0.75rem;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 1.5rem;
-        }
-
-        .section-header h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(2.5rem, 4vw, 4rem);
-            font-weight: 400;
-            line-height: 1.2;
-            letter-spacing: -0.02em;
-        }
-
-        .section-header p {
-            color: var(--charcoal);
-            max-width: 450px;
-        }
-
-        .streams-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
-
-        .stream-card {
-            background: var(--cream);
-            border: 1px solid var(--mist);
-            padding: 3rem 2.5rem;
-            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stream-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: var(--gold);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.5s ease;
-        }
-
-        .stream-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-            border-color: transparent;
-        }
-
-        .stream-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .stream-icon {
-            width: 48px;
-            height: 48px;
-            background: var(--ink);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 2rem;
-        }
-
-        .stream-icon svg {
-            width: 24px;
-            height: 24px;
-            stroke: var(--gold);
-        }
-
-        .stream-card h3 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.8rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-
-        .stream-card p {
-            color: var(--charcoal);
-            font-size: 0.95rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .stream-yield {
-            display: flex;
-            justify-content: space-between;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--mist);
-            font-size: 0.85rem;
-        }
-
-        .stream-yield span:first-child {
-            color: var(--charcoal);
-        }
-
-        .stream-yield span:last-child {
-            color: var(--sage);
-            font-weight: 600;
-        }
-
-        /* Calculator */
-        .calculator {
-            background: linear-gradient(135deg, var(--ink) 0%, var(--charcoal) 100%);
-            color: var(--cream);
-            padding: 10rem 4rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .calculator::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 800px;
-            height: 800px;
-            background: radial-gradient(circle, rgba(201, 162, 39, 0.1) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
-        .calculator-inner {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6rem;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .calculator h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(2.5rem, 4vw, 4rem);
-            font-weight: 400;
-            margin-bottom: 1.5rem;
-            letter-spacing: -0.02em;
-        }
-
-        .calculator-form {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            padding: 3rem;
-        }
-
-        .form-group {
-            margin-bottom: 2rem;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.75rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            margin-bottom: 0.75rem;
-            opacity: 0.7;
-        }
-
-        .form-group input {
-            width: 100%;
-            background: transparent;
-            border: none;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-            padding: 1rem 0;
-            font-size: 1.5rem;
-            font-family: 'Cormorant Garamond', serif;
-            color: var(--cream);
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus {
-            border-color: var(--gold);
-        }
-
-        .form-group input::placeholder {
-            color: rgba(255,255,255,0.3);
-        }
-
-        .result-display {
-            background: var(--gold);
-            color: var(--ink);
-            padding: 2rem;
-            margin-top: 2rem;
-            text-align: center;
-        }
-
-        .result-label {
-            font-size: 0.7rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            margin-bottom: 0.5rem;
-        }
-
-        .result-value {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 3rem;
-            font-weight: 600;
-        }
-
-        .result-sub {
-            font-size: 0.85rem;
-            margin-top: 0.5rem;
-            opacity: 0.8;
-        }
-
-        /* Newsletter */
-        .newsletter {
-            padding: 10rem 4rem;
-            text-align: center;
-        }
-
-        .newsletter-inner {
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .newsletter h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(2.5rem, 4vw, 4rem);
-            font-weight: 400;
-            margin-bottom: 1.5rem;
-            letter-spacing: -0.02em;
-        }
-
-        .newsletter p {
-            color: var(--charcoal);
-            margin-bottom: 3rem;
-        }
-
-        .newsletter-form {
-            display: flex;
-            gap: 1rem;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        .newsletter-form input {
-            flex: 1;
-            background: transparent;
-            border: 1px solid var(--ink);
-            padding: 1.1rem 1.5rem;
-            font-size: 0.95rem;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        .newsletter-form input:focus {
-            border-color: var(--gold);
-        }
-
-        /* Footer */
-        footer {
-            background: var(--ink);
-            color: var(--cream);
-            padding: 6rem 4rem 3rem;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 4rem;
-            margin-bottom: 4rem;
-        }
-
-        .footer-brand p {
-            opacity: 0.6;
-            font-size: 0.95rem;
-            margin-top: 1.5rem;
-            max-width: 300px;
-        }
-
-        .footer-col h4 {
-            font-size: 0.75rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            margin-bottom: 1.5rem;
-            opacity: 0.5;
-        }
-
-        .footer-col ul {
-            list-style: none;
-        }
-
-        .footer-col li {
-            margin-bottom: 0.75rem;
-        }
-
-        .footer-col a {
-            color: var(--cream);
-            text-decoration: none;
-            opacity: 0.8;
-            transition: opacity 0.3s;
-        }
-
-        .footer-col a:hover {
-            opacity: 1;
-        }
-
-        .footer-bottom {
-            padding-top: 3rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.85rem;
-            opacity: 0.5;
-        }
-
-        /* Animations */
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .hero {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .hero-content {
-                max-width: 100%;
-            }
-
-            .hero p {
-                margin: 0 auto 3rem;
-            }
-
-            .cta-group {
-                justify-content: center;
-            }
-
-            .hero-visual {
-                display: none;
-            }
-
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .stat-item {
-                border-right: none;
-                border-bottom: 1px solid rgba(255,255,255,0.1);
-            }
-
-            .section-header {
-                grid-template-columns: 1fr;
-            }
-
-            .streams-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .calculator-inner {
-                grid-template-columns: 1fr;
-            }
-
-            .footer-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            nav {
-                padding: 1rem 2rem;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .hero, .streams, .calculator, .newsletter {
-                padding-left: 2rem;
-                padding-right: 2rem;
-            }
-
-            .stats {
-                grid-template-columns: 1fr;
-                padding: 4rem 2rem;
-            }
-
-            .newsletter-form {
-                flex-direction: column;
-            }
-
-            footer {
-                padding: 4rem 2rem 2rem;
-            }
-
-            .footer-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .footer-bottom {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <nav>
-        <div class="logo">Idle<span>Fortune</span></div>
+        <a href="index.html" class="logo">Idle<span>Fortune</span></a>
         <ul class="nav-links">
             <li><a href="#streams">Income Streams</a></li>
             <li><a href="#calculator">Calculator</a></li>
-            <li><a href="#learn">Learn</a></li>
             <li><a href="#newsletter">Newsletter</a></li>
         </ul>
     </nav>
@@ -796,7 +25,7 @@
             <h1>Build Wealth That Works <em>For You</em></h1>
             <p>Discover proven strategies to create multiple streams of income that generate returns around the clock—without trading your time for money.</p>
             <div class="cta-group">
-                <button class="btn-primary"><span>Start Your Journey</span></button>
+                <button class="btn-primary" onclick="document.getElementById('streams').scrollIntoView({behavior: 'smooth'})"><span>Start Your Journey</span></button>
                 <a href="#streams" class="btn-secondary">
                     Explore Strategies
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -833,7 +62,7 @@
             <div class="stat-label">Active Members</div>
         </div>
         <div class="stat-item">
-            <div class="stat-number">8</div>
+            <div class="stat-number">6</div>
             <div class="stat-label">Income Stream Categories</div>
         </div>
         <div class="stat-item">
@@ -851,7 +80,7 @@
             <p>Each strategy has been tested and refined by thousands of members. Find the approach that matches your skills, capital, and time investment.</p>
         </div>
         <div class="streams-grid">
-            <div class="stream-card">
+            <a href="dividends.html" class="stream-card">
                 <div class="stream-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                         <path d="M3 3v18h18"/>
@@ -864,8 +93,11 @@
                     <span>Typical Annual Yield</span>
                     <span>4-8%</span>
                 </div>
-            </div>
-            <div class="stream-card">
+                <div class="card-cta">
+                    Learn Strategy →
+                </div>
+            </a>
+            <a href="digital-products.html" class="stream-card">
                 <div class="stream-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                         <rect x="3" y="3" width="18" height="18" rx="2"/>
@@ -878,8 +110,11 @@
                     <span>Profit Margin</span>
                     <span>70-95%</span>
                 </div>
-            </div>
-            <div class="stream-card">
+                <div class="card-cta">
+                    Learn Strategy →
+                </div>
+            </a>
+            <a href="real-estate.html" class="stream-card">
                 <div class="stream-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                         <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
@@ -892,8 +127,11 @@
                     <span>Cash-on-Cash Return</span>
                     <span>8-15%</span>
                 </div>
-            </div>
-            <div class="stream-card">
+                <div class="card-cta">
+                    Learn Strategy →
+                </div>
+            </a>
+            <a href="affiliate-marketing.html" class="stream-card">
                 <div class="stream-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                         <circle cx="12" cy="12" r="10"/>
@@ -906,8 +144,11 @@
                     <span>Commission Rate</span>
                     <span>5-50%</span>
                 </div>
-            </div>
-            <div class="stream-card">
+                <div class="card-cta">
+                    Learn Strategy →
+                </div>
+            </a>
+            <a href="index-funds.html" class="stream-card">
                 <div class="stream-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                         <path d="M12 2L2 7l10 5 10-5-10-5z"/>
@@ -921,8 +162,11 @@
                     <span>Historical Return</span>
                     <span>7-10%</span>
                 </div>
-            </div>
-            <div class="stream-card">
+                <div class="card-cta">
+                    Learn Strategy →
+                </div>
+            </a>
+            <a href="content-licensing.html" class="stream-card">
                 <div class="stream-icon">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                         <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
@@ -934,7 +178,10 @@
                     <span>Per Download</span>
                     <span>$0.25-$50</span>
                 </div>
-            </div>
+                <div class="card-cta">
+                    Learn Strategy →
+                </div>
+            </a>
         </div>
     </section>
 
@@ -986,25 +233,23 @@
     <footer>
         <div class="footer-grid">
             <div class="footer-brand">
-                <div class="logo">Idle<span>Fortune</span></div>
+                <a href="index.html" class="logo">Idle<span>Fortune</span></a>
                 <p>Empowering individuals to build sustainable wealth through smart, passive income strategies.</p>
             </div>
             <div class="footer-col">
-                <h4>Learn</h4>
+                <h4>Strategies</h4>
                 <ul>
-                    <li><a href="#">Getting Started</a></li>
-                    <li><a href="#">Income Strategies</a></li>
-                    <li><a href="#">Case Studies</a></li>
-                    <li><a href="#">Resources</a></li>
+                    <li><a href="dividends.html">Dividend Investing</a></li>
+                    <li><a href="digital-products.html">Digital Products</a></li>
+                    <li><a href="real-estate.html">Real Estate</a></li>
+                    <li><a href="affiliate-marketing.html">Affiliate Marketing</a></li>
                 </ul>
             </div>
             <div class="footer-col">
-                <h4>Community</h4>
+                <h4>More Strategies</h4>
                 <ul>
-                    <li><a href="#">Forum</a></li>
-                    <li><a href="#">Discord</a></li>
-                    <li><a href="#">Events</a></li>
-                    <li><a href="#">Success Stories</a></li>
+                    <li><a href="index-funds.html">Index Funds</a></li>
+                    <li><a href="content-licensing.html">Content Licensing</a></li>
                 </ul>
             </div>
             <div class="footer-col">
@@ -1023,50 +268,6 @@
         </div>
     </footer>
 
-    <script>
-        // Calculator functionality
-        function calculate() {
-            const initial = parseFloat(document.getElementById('initial').value) || 0;
-            const monthly = parseFloat(document.getElementById('monthly').value) || 0;
-            const rate = parseFloat(document.getElementById('rate').value) / 100 || 0;
-            const years = parseFloat(document.getElementById('years').value) || 0;
-
-            const monthlyRate = rate / 12;
-            const months = years * 12;
-
-            // Future value of initial investment
-            const fvInitial = initial * Math.pow(1 + monthlyRate, months);
-
-            // Future value of monthly contributions (annuity)
-            const fvMonthly = monthly * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate);
-
-            const total = fvInitial + fvMonthly;
-            const contributed = initial + (monthly * months);
-            const earned = total - contributed;
-
-            document.getElementById('result').textContent = '$' + Math.round(total).toLocaleString();
-            document.getElementById('result-sub').textContent = 
-                '$' + Math.round(contributed).toLocaleString() + ' contributed · $' + Math.round(earned).toLocaleString() + ' earned';
-        }
-
-        // Add event listeners to all inputs
-        document.querySelectorAll('.calculator-form input').forEach(input => {
-            input.addEventListener('input', calculate);
-        });
-
-        // Initial calculation
-        calculate();
-
-        // Smooth scroll for nav links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
-    </script>
+    <script src="calculator.js"></script>
 </body>
 </html>
